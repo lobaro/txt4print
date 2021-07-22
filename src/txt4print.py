@@ -14,6 +14,7 @@ from font import FONT_REGULAR, FONT_BOLD
 printable = string.ascii_letters + string.digits + string.punctuation
 printable_byte = printable.encode()
 
+__version__ = "0.1"
 
 def calc_crc(data):
     crc = 0xFFFF
@@ -112,7 +113,8 @@ class PDF(FPDF):
         self.text_line("Text printed in bold is not part of the file. On the left is the line number, on")
         self.text_line("right a per line checksum (CRC-16-IBM). Lines longer than 80 chars are wrapped.")
         self.ln()
-        self.text_line("See https://github.com/lobaro/txt4print for additional information.")
+        self.text_line("Created with txt4print version " + __version__ + " - for additional information see")
+        self.text_line("https://github.com/lobaro/txt4print")
         self.ln()
         self.text_line("================ BEGIN OF FILE =================================================", True)
         raw_lines = raw.splitlines(True)
@@ -141,8 +143,8 @@ if __name__ == "__main__":
         pdf = PDF()
         pdf.do(sys.argv[1])
     else:
-        print("txt4print v0.1 Basic text file printing tool")
+        print("txt4print v"+__version__+" - Basic text file printing tool")
         print("Create a pdf for printing out files so that they can be recovered.")
         print("See https://github.com/lobaro/txt4print for more information.")
-        print("This will only work with small text files with short lines.")
+        print("This will only work well with small text files with short lines.")
         print("Usage: %s <filename>" % sys.argv[0])
