@@ -15,6 +15,38 @@ We do not guaranty anything, if you use this software! There is no warranty!
 The script is designed to work on a limited linux system with no network 
 connection (for keeping secrets safe).
 
+## How does it work?
+The script takes a textfile as input and creates a pdf file to be printed 
+(yes, on paper). You store that in a safe place.
+Should you ever lose all of your digital copies of that file, you take that 
+paper from your safe location and type it back into a computer using your keyboard.
+
+On the pdf there are all bytes of the input file printed in a way that they 
+can be typed back into a computer using any text editor. Care is taken, so 
+that all bytes can be identified. It uses a font with distinctive letters 
+(Number zero 0 versus letter O, Number 1 versus lower case L: l and upper case i: I).
+Spaces and newlines are printed explicitly. All other non-printable bytes are 
+printed as hex numbers. No byte is ignored. For each line a CRC checksum is 
+included, so that mistakes can be spotted easily in files with many lines.
+
+The printout contains the name of the file printed, it's size in bytes, and a 
+sha256 checksum, so that you can verify you do not make any mistakes typing.
+It also has the date and time of printing and a 4 byte random ID. The ID is 
+printed on enery page, next to the page number, so that you can easily sort 
+pages of multiple printouts if they ever get mixed up.
+
+The printout also contains brief instructions on what it is and how data 
+is represented on it. This should allow recreation of the files from the 
+printout alone, even when this documentation will no longer be available 
+online.
+
+## Examples
+Get a feel for what it looks like, here are some examples:
+* [An example CA Certificate](examples/example-ca-cert.crt.pdf) ([original file](examples/example-ca-cert.crt)).
+* [The CA Certificate's private key](examples/example-ca-cert.key.pdf) ([original file](examples/example-ca-cert.key)) &ndash; encrypted with passphrase "unsecure".
+* [The source code of txt4print](examples/txt4print.py.pdf)
+* [The source of this README](examples/README.md.pdf)
+
 ## Single file binary
 This is meant to be used as a single file binary. You can create that using 
 `pyinstaller`. On my x86_64 Linux the binary is about 7 MiB big.
@@ -72,7 +104,6 @@ This is meant to be used as a single file binary. You can create that using
   people making tails use it for their signing keys, see 
   [the tails doc][tailsdoc].
   
-
 [diceware]: https://en.wikipedia.org/wiki/Diceware
 [tails]: https://tails.boum.org/
 [gfshare]: https://git.gitano.org.uk/libgfshare.git/
@@ -81,7 +112,7 @@ This is meant to be used as a single file binary. You can create that using
 ## Limitations
 The is no warranty for anything! 
 
-The script was written for a printing small text files, and will not be very useful 
+The script was written for a printing small ASCII text files, and will not be very useful 
 for other files. It supports long lines and many lines and binary, non-ASCII data, 
 but you will not be happy typing those back in.
 
